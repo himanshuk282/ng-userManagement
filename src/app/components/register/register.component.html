@@ -1,0 +1,107 @@
+<div class="container mt-3">
+    <form [formGroup]="registerForm">
+        <!-- Use the below template to show error in a list -->
+      <!-- <div class="row">
+        <div class="col">
+            <ul *ngIf="registerForm.touched && !registerForm.valid">
+                <li *ngIf="registerForm.controls['firstName'].hasError('required')" class="text-danger">{{registerationErrorMessage.firstNameRequired}}</li>
+                <li *ngIf="registerForm.controls['firstName'].hasError('required')" class="text-danger">{{registerationErrorMessage.firstNameRequired}}</li>
+                <li *ngIf="registerForm.controls['email'].hasError('required')" class="text-danger">{{registerationErrorMessage.emailRequired}}</li>
+                <li *ngIf="registerForm.controls['email'].hasError('email')" class="text-danger">{{registerationErrorMessage.emailFormat}}</li>
+                <li *ngIf="registerForm.controls['dateOfBirth'].hasError('required')" class="text-danger">{{registerationErrorMessage.dobRequired}}</li>
+                <li *ngIf="registerForm.controls['gender'].hasError('required')" class="text-danger">{{registerationErrorMessage.genderRequired}}</li>
+                <li *ngIf="registerForm.controls['password'].hasError('required')" class="text-danger">{{registerationErrorMessage.passwordRequired}}</li>
+            </ul>
+        </div>
+      </div> -->
+        <div class="row jumbotron box8">
+        <div class="col-sm-12 mx-t3 mb-4">
+          <h2 class="text-center text-info">Register</h2>
+        </div>
+        <div class="col-sm-6 form-group">
+            <div class="input-group mb-3">
+                <span class="input-group-text">First Name</span>
+                <input type="text" class="form-control" [placeholder]="defaultFormState.firstName" formControlName="firstName">
+                <div class="col-12 text-danger">
+                    <ul class="my-0" *ngIf="!registerForm.get('firstName')?.valid && registerForm.get('firstName')?.touched">
+                        <li *ngIf="registerForm.controls['firstName'].hasError('required')">{{registerationErrorMessage.firstNameRequired}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 form-group">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Last Name</span>
+                <input type="text" class="form-control" [placeholder]="defaultFormState.lastName" formControlName="lastName">
+                <div class="col-12 text-danger">
+                    <ul class="my-0" *ngIf="!registerForm.get('lastName')?.valid && registerForm.get('lastName')?.touched">
+                        <li *ngIf="registerForm.controls['lastName'].hasError('required')">{{registerationErrorMessage.lastNameRequired}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 form-group">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Email</span>
+                <input type="email" class="form-control" [placeholder]="defaultFormState.email" formControlName="email">
+                <div class="col-12 text-danger">
+                    <ul class="my-0" *ngIf="!registerForm.get('email')?.valid && registerForm.get('email')?.touched">
+                        <li *ngIf="registerForm.controls['email'].hasError('required')">{{registerationErrorMessage.emailRequired}}</li>
+                        <li *ngIf="registerForm.controls['email'].hasError('email')">{{registerationErrorMessage.emailFormat}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-3 form-group">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Birthday</span>
+                <input type="date" class="form-control" formControlName="dateOfBirth">
+            </div>
+        </div>
+        <div class="col-sm-3 form-group">
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">Gender</label>
+                <select class="form-select" id="inputGroupSelect01" formControlName="gender">
+                  <option selected>Select ...</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="unspecified">Unspecified</option>
+                </select>
+              </div>
+        </div>
+        
+        <div class="col-sm-6 form-group">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Password</span>
+                <input type="password" class="form-control" [placeholder]="defaultFormState.password" formControlName="password">
+                <div class="col-12 text-danger">
+                    <ul class="my-0" *ngIf="!registerForm.get('password')?.valid && registerForm.get('password')?.touched">
+                        <li *ngIf="registerForm.controls['password'].hasError('required')">{{registerationErrorMessage.passwordRequired}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-sm-6 form-group">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Confirm Password</span>
+                <input type="password" class="form-control">
+            </div>
+        </div> -->
+        <div class="col-sm-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="terms" checked>
+                <label class="form-check-label" for="terms">
+                    I accept all terms and conditions. 
+                </label>
+              </div>
+        </div>
+  
+        <div class="col-sm-12 form-group mb-3">
+          <button type="submit" class="btn btn-success float-right" [disabled]="!registerForm.valid" (click)="onSubmit()">Submit</button>
+          <button type="submit" class="btn btn-danger float-right mx-1" (click)="onReset()">Reset</button>
+        </div>  
+      </div>
+    </form>
+  </div>
