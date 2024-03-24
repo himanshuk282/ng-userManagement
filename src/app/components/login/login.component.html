@@ -1,1 +1,42 @@
-<p>login works!</p>
+<div class="container mt-3">
+    <form [formGroup]="loginForm">
+        <div class="row jumbotron box8">
+        <div class="col-sm-12 mx-t3 mb-4">
+          <h2 class="text-center text-warning">Login</h2>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-6 form-group">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Email</span>
+                    <input type="email" class="form-control" [placeholder]="formDefaults.email" formControlName="email">
+                    <div class="col-12 text-danger">
+                        <ul class="my-0" *ngIf="!loginForm.get('email')?.valid && loginForm.get('email')?.touched">
+                            <li *ngIf="loginForm.controls['email'].hasError('required')">{{formError.emailReq}}</li>
+                            <li *ngIf="loginForm.controls['email'].hasError('email')">{{formError.emailFormat}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-6 form-group">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Password</span>
+                    <input type="password" class="form-control" [placeholder]="formDefaults.password" formControlName="password">
+                    <div class="col-12 text-danger">
+                        <ul class="my-0" *ngIf="!loginForm.get('password')?.valid && loginForm.get('password')?.touched">
+                            <li *ngIf="loginForm.controls['password'].hasError('required')">{{formError.passReq}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>  
+        </div>
+        <div class="row">
+            <div class="col-sm-12 form-group mb-3 d-flex justify-content-center">
+              <button type="submit" class="btn btn-success" [disabled]="!loginForm.valid" (click)="onSubmit()">Submit</button>
+              <button type="submit" class="btn btn-danger mx-1" (click)="this.loginForm.reset()">Reset</button>
+            </div>  
+          </div>
+        </div>
+    </form>
+  </div>

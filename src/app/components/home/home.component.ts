@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,16 @@ import { Component } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  constructor(private route:ActivatedRoute,private router:Router){}
+  ngOnInit(): void {
+    this.route.queryParams.subscribe({
+      next:(param)=>{
+        if(!param['authenticated']){
+          this.router.navigate(['/login']);
+        }
+      }
+    });
+  }
 
 }

@@ -55,14 +55,14 @@ export class RegisterComponent implements OnInit {
   onSubmit(){
     //User can be stored in the database or anyplace else
     //We can store them in localStorage
-    const isUserPresent = localStorage.getItem(this.registerForm.value?.firstName);
+    const isUserPresent = localStorage.getItem(this.registerForm.value?.email);
     if(isUserPresent != null){
       //User Already present
       //We can provision update here
       //We will not allow the user to update
       alert("User is already present. Please contact admin.");
     }else{
-      localStorage.setItem(this.registerForm.value?.firstName,JSON.stringify(this.registerForm.value));
+      localStorage.setItem(this.registerForm.value?.email,JSON.stringify(this.registerForm.value));
       this.registerForm.setValue(this.defaultFormState);
       alert("User successfully added!");
     }
