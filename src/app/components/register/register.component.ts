@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../../models/user/user.model';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +13,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent implements OnInit {
+  constructor(private authService:AuthService,private router:Router){}
   defaultFormState:User = {
     'firstName':'Enter firstname',
     'lastName':'Enter lastname',
@@ -52,20 +55,18 @@ export class RegisterComponent implements OnInit {
       ])
     });
   }
+  errorMessage: string | null = null;
   onSubmit(){
-    //User can be stored in the database or anyplace else
-    //We can store them in localStorage
-    const isUserPresent = localStorage.getItem(this.registerForm.value?.email);
-    if(isUserPresent != null){
-      //User Already present
-      //We can provision update here
-      //We will not allow the user to update
-      alert("User is already present. Please contact admin.");
-    }else{
-      localStorage.setItem(this.registerForm.value?.email,JSON.stringify(this.registerForm.value));
-      this.registerForm.setValue(this.defaultFormState);
-      alert("User successfully added!");
-    }
+    const rawForm = this.registerForm.value;
+    this.authService.register(rawForm.email,rawForm.password,rawForm.firstName).subscribe({
+      next:()=>{
+        this.router.navigateByUrl('/home');
+      },
+      error:(error)=>{
+        this.errorMessage = error.code;
+        alert("Error message: "+error.code);
+      }
+    })
   }
   onReset(){
     this.registerForm.reset();

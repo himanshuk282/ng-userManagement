@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
+  authService = inject(AuthService);
   loginForm!:FormGroup;
   isUserValid:boolean = false;
   formDefaults:any = {
@@ -38,26 +40,15 @@ export class LoginComponent implements OnInit {
     });
   }
   onSubmit(){
-    const user = localStorage.getItem(this.loginForm.value?.email);
-    if(user != null){
-      //User present and check for password;
-      const userDetail = JSON.parse(user);
-      if(this.loginForm.value.password == userDetail.password){
-        //Match
-        this.isUserValid = true;
-        this.router.navigate(['../home'],{
-          queryParams:{
-            authenticated: this.isUserValid
-          }
-        });
+    const rawForm = this.loginForm.value;
+    this.authService.login(rawForm.email,rawForm.password).subscribe({
+      next: ()=>{
+        this.router.navigateByUrl('/home');
+      },
+      error:(error)=>{
+        alert("Error in login: " + error.code);
       }
-      else{
-        alert("Error: "+this.formError.passwordNotMatch);
-      }
-    }
-    else{
-      //user not present
-      alert("Error: "+ this.formError.emailNotFound);
-    }
+    })
+
   }
 }

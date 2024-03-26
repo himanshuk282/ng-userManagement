@@ -23,7 +23,7 @@ export class AuthService {
     const promise = signInWithEmailAndPassword(this.firebaseAuth,email,password).then(()=>{});
     return from(promise);
   }
-  logout(){
+  logout():Observable<void>{
     const promise = signOut(this.firebaseAuth).then(()=>{
       this.currentUserSig.set(null);
     });
