@@ -1,9 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { User } from '../../models/user/user.model';
+import { User } from '../../models/user-details.interface';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { DatabaseService } from '../../services/database.service';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent implements OnInit {
-  constructor(private authService:AuthService,private router:Router){}
+  constructor(private authService:AuthService,private router:Router,private db:DatabaseService){}
   defaultFormState:User = {
     'firstName':'Enter firstname',
     'lastName':'Enter lastname',
@@ -58,15 +59,22 @@ export class RegisterComponent implements OnInit {
   errorMessage: string | null = null;
   onSubmit(){
     const rawForm = this.registerForm.value;
+    let user:User = rawForm;
     this.authService.register(rawForm.email,rawForm.password,rawForm.firstName).subscribe({
       next:()=>{
+        this.db.addUserDetails(user).then((id:string)=>{
+          alert("Data added with id : "+ id);
+        }).catch((err)=>{
+          alert("Error: "+ err.code);
+        })
         this.router.navigateByUrl('/home');
       },
       error:(error)=>{
         this.errorMessage = error.code;
         alert("Error message: "+error.code);
       }
-    })
+    });
+   
   }
   onReset(){
     this.registerForm.reset();
